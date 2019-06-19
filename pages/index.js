@@ -1,55 +1,40 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchApodStart } from '../lib/reducers/apod';
+import { fetchApodStart,logIn } from '../lib/reducers/apod';
+import Link from 'next/link';
+import store from "../lib/store";
+import Button from '@material-ui/core/Button';
+
+
 
 const mapStateToProps = state => ({
   apod: state.apod,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchApod: date => dispatch(fetchApodStart(date)),
+  logIn:() => dispatch(logIn())
 });
 
 class Index extends React.Component {
   static async getInitialProps({ isServer, store }) {
-    // Fetch today NASA APOD
-    await store.execSagaTasks(isServer, dispatch => {
-      dispatch(fetchApodStart());
-    });
-
-    console.log('');
-    console.log('###############################');
-    console.log('### Fetched today NASA APOD ###');
-    console.log('###############################');
-    console.log(store.getState().apod);
-    console.log('');
-
-    // Fetch custom date NASA APOD
-    await store.execSagaTasks(isServer, dispatch => {
-      dispatch(fetchApodStart('2018-07-26'));
-    });
-
-    console.log('');
-    console.log('#####################################');
-    console.log('### Fetched custom date NASA APOD ###');
-    console.log('#####################################');
-    console.log(store.getState().apod);
-    console.log('');
+   
 
     return {};
+  }
+  logIn = async () => {
+    console.log('fist debug')
+   this.props.logIn();
   }
 
   render() {
     return (
       <div>
-        <style jsx>
-          {`
-            .apod-img {
-              width: 70%;
-            }
-          `}
-        </style>
-        <img className="apod-img" src={this.props.apod.data.url} alt="" />
+        <h1>Hello Cruel World</h1>
+        <Link href="/about"><a>about</a></Link>
+        <btn onClick={()=>{this.logIn()}}>Long in</btn>
+        <Button variant="contained" color="primary">
+      Hello World
+    </Button>
       </div>
     );
   }
